@@ -22,6 +22,7 @@ class Automate {
         Symbole* popSymbol();
         void popAndDestroySymbol();
 
+        void printStacks() const; // Méthode pour afficher les piles (pour le débogage)
         void iterate();
         void Afficher() const;
 };

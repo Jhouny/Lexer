@@ -11,6 +11,7 @@ class Automate {
         Symbole* consulter();
         Symbole* popSymbol();
         void popAndDestroySymbol();
+        void printStacks() const; // Méthode pour afficher les piles (pour le débogage)
         void iterate();
         void Afficher() const;
 }; // Éviter les inclusions circulaires
@@ -24,9 +25,6 @@ void Etat::Affiche() const {
 }
 
 bool E0::transition(Automate& automate, Symbole* symbole) {
-    cout << "Etat: " << name << ", Symbole: ";
-    symbole->Affiche();
-    cout << endl;
     switch (int(*symbole)) {
         case OPENPAR:
             automate.decalage(symbole, new E2());
@@ -35,7 +33,7 @@ bool E0::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E1());
             return true;
         case INT:
-            automate.decalage(symbole, new E3());
+            automate.transitionSimple(symbole, new E3());
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
@@ -44,9 +42,6 @@ bool E0::transition(Automate& automate, Symbole* symbole) {
 }
 
 bool E1::transition(Automate& automate, Symbole* symbole) {
-    cout << "Etat: " << name << ", Symbole: ";
-    symbole->Affiche();
-    cout << endl;
     switch (int(*symbole)) {
         case PLUS:
             automate.decalage(symbole, new E4());
@@ -81,30 +76,24 @@ bool E2::transition(Automate& automate, Symbole* symbole) {
 }
 
 bool E3::transition(Automate& automate, Symbole* symbole) {
-    cout << "Etat: " << name << ", Symbole: ";
-    symbole->Affiche();
-    cout << endl;
     switch (int(*symbole)) {
         default:
-            Entier* i = (Entier*) automate.consulter();
+            Entier* i = (Entier*) automate.popSymbol();
             automate.reduction(1, new Expr(i->getValeur()));
             return true;
     }
 }
 
 bool E4::transition(Automate& automate, Symbole* symbole) {
-    cout << "Etat: " << name << ", Symbole: ";
-    symbole->Affiche();
-    cout << endl;
     switch (int(*symbole)) {
         case OPENPAR:
             automate.decalage(symbole, new E2());
             return true;
         case EXPR:
-            automate.decalage(symbole, new E7());
+            automate.transitionSimple(symbole, new E7());
             return true;
         case INT:
-            automate.decalage(symbole, new E3());
+            automate.transitionSimple(symbole, new E3());
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
@@ -118,10 +107,10 @@ bool E5::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E2());
             return true;
         case EXPR:
-            automate.decalage(symbole, new E8());
+            automate.transitionSimple(symbole, new E8());
             return true;
         case INT:
-            automate.decalage(symbole, new E3());
+            automate.transitionSimple(symbole, new E3());
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
@@ -147,9 +136,6 @@ bool E6::transition(Automate& automate, Symbole* symbole) {
 }
 
 bool E7::transition(Automate& automate, Symbole* symbole) {
-    cout << "Etat: " << name << ", Symbole: ";
-    symbole->Affiche();
-    cout << endl;
     switch (int(*symbole)) {
         case MULT:
             automate.decalage(symbole, new E5());

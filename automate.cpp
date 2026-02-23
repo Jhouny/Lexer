@@ -56,12 +56,23 @@ void Automate::popAndDestroySymbol() {
     }
 }
 
+void Automate::printStacks() const {
+    cout << endl;
+    cout << "Etat stack: ";
+    for (const auto& etat : statestack) {
+        etat->Affiche();
+    }
+    cout << "Symbole stack: ";
+    for (const auto& symbole : symbolstack) {
+        symbole->Affiche();
+        cout << " ";
+    }
+    cout << endl;
+}
+
 void Automate::iterate() {
     while (true) {
         Symbole* symbole = consulter();
-        cout << "Symbole courant: ";
-        symbole->Affiche();
-        cout << endl;
         if (!statestack.back()->transition(*this, symbole)) {
             break;
         }
