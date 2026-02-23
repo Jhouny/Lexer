@@ -3,20 +3,9 @@
 #include <string>
 #include "symbole.h"
 #include <iostream>
-
-class Automate {
-    public:
-        Automate();
-        ~Automate();
-        void decalage(Symbole* symbole, Etat* etat);
-        void transitionSimple(Symbole* symbole, Etat* etat);
-        void reduction(int n, Symbole* symbole);
-
-        Symbole* popSymbol();
-        void popAndDestroySymbol();
-}; // Éviter les inclusions circulaires
-
 using namespace std;
+
+class Automate;
 
 class Etat {
     public:

@@ -1,5 +1,20 @@
 #include "etat.h"
 
+class Etat;
+class Automate {
+    public:
+        Automate();
+        ~Automate();
+        void decalage(Symbole* symbole, Etat* etat);
+        void transitionSimple(Symbole* symbole, Etat* etat);
+        void reduction(int n, Symbole* symbole);
+        Symbole* consulter();
+        Symbole* popSymbol();
+        void popAndDestroySymbol();
+        void iterate();
+        void Afficher() const;
+}; // Éviter les inclusions circulaires
+
 Etat::Etat(string name) : name(name) {}
 
 Etat::~Etat() {}
@@ -8,9 +23,9 @@ void Etat::Affiche() const {
     cout << "Etat: " << name << endl;
 }
 
-E0::E0() : Etat("E0") {}
-E0::~E0() {}
 bool E0::transition(Automate& automate, Symbole* symbole) {
+    cout << "Etat: " << name << ", Symbole: ";
+    symbole->Affiche();
     switch (int(*symbole)) {
         case OPENPAR:
             automate.decalage(symbole, new E2());
@@ -22,13 +37,14 @@ bool E0::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E3());
             return true;
         default:
+            cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
             return false;
     }
 }
 
-E1::E1() : Etat("E1") {}
-E1::~E1() {}
 bool E1::transition(Automate& automate, Symbole* symbole) {
+    cout << "Etat: " << name << ", Symbole: ";
+    symbole->Affiche();
     switch (int(*symbole)) {
         case PLUS:
             automate.decalage(symbole, new E4());
@@ -37,15 +53,14 @@ bool E1::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E5());
             return true;
         case FIN:
-            /* TODO */
-            return true;
+            /* QUIT ITERATION */
+            return false;
         default:
+            cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
             return false;
     }
 }
 
-E2::E2() : Etat("E2") {}
-E2::~E2() {}
 bool E2::transition(Automate& automate, Symbole* symbole) {
     switch (int(*symbole)) {
         case INT:
@@ -58,25 +73,25 @@ bool E2::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E2());
             return true;
         default:
+            cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
             return false;
     }
 }
 
-E3::E3() : Etat("E3") {}
-E3::~E3() {}
 bool E3::transition(Automate& automate, Symbole* symbole) {
+    cout << "Etat: " << name << ", Symbole: ";
+    symbole->Affiche();
     switch (int(*symbole)) {
-        case FIN:
-            /* TODO */
-            return true;
         default:
-            return false;
+            Entier* i = (Entier*) automate.consulter();
+            automate.reduction(1, new Expr(i->getValeur()));
+            return true;
     }
 }
 
-E4::E4() : Etat("E4") {}
-E4::~E4() {}
 bool E4::transition(Automate& automate, Symbole* symbole) {
+    cout << "Etat: " << name << ", Symbole: ";
+    symbole->Affiche();
     switch (int(*symbole)) {
         case OPENPAR:
             automate.decalage(symbole, new E2());
@@ -88,12 +103,11 @@ bool E4::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E3());
             return true;
         default:
+            cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
             return false;
     }
 }
 
-E5::E5() : Etat("E5") {}
-E5::~E5() {}
 bool E5::transition(Automate& automate, Symbole* symbole) {
     switch (int(*symbole)) {
         case OPENPAR:
@@ -106,12 +120,11 @@ bool E5::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E3());
             return true;
         default:
+            cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
             return false;
     }
 }
 
-E6::E6() : Etat("E6") {}
-E6::~E6() {}
 bool E6::transition(Automate& automate, Symbole* symbole) {
     switch (int(*symbole)) {
         case MULT:
@@ -124,42 +137,45 @@ bool E6::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E9());
             return true;
         default:
+            cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
             return false;
     }
 }
 
-E7::E7() : Etat("E7") {}
-E7::~E7() {}
 bool E7::transition(Automate& automate, Symbole* symbole) {
+    cout << "Etat: " << name << ", Symbole: ";
+    symbole->Affiche();
     switch (int(*symbole)) {
         case MULT:
             automate.decalage(symbole, new E5());
             return true;
         default:
-            return false;
+            Expr* e1 = (Expr*) automate.popSymbol();
+            automate.popAndDestroySymbol();
+            Expr* e2 = (Expr*) automate.popSymbol();
+            automate.reduction(3, new ExprPlus(e2, e1));
+            return true;
     }
 }
 
-E8::E8() : Etat("E8") {}
-E8::~E8() {}
 bool E8::transition(Automate& automate, Symbole* symbole) {
     switch (int(*symbole)) {
-        case FIN:
-            /* TODO */
-            return true;
         default:
-            return false;
+            Expr* e1 = (Expr*) automate.popSymbol();
+            automate.popAndDestroySymbol();
+            Expr* e2 = (Expr*) automate.popSymbol();
+            automate.reduction(3, new ExprMult(e1, e2));
+            return true;
     }
 }
 
-E9::E9() : Etat("E9") {}
-E9::~E9() {}
 bool E9::transition(Automate& automate, Symbole* symbole) {
     switch (int(*symbole)) {
-        case FIN:
-            /* TODO */
-            return true;
         default:
-            return false;
+            automate.popAndDestroySymbol();
+            Expr* e = (Expr*) automate.popSymbol();
+            automate.popAndDestroySymbol();
+            automate.reduction(3, e);
+            return true;
     }
 }
