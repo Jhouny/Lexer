@@ -26,6 +26,7 @@ void Etat::Affiche() const {
 bool E0::transition(Automate& automate, Symbole* symbole) {
     cout << "Etat: " << name << ", Symbole: ";
     symbole->Affiche();
+    cout << endl;
     switch (int(*symbole)) {
         case OPENPAR:
             automate.decalage(symbole, new E2());
@@ -45,6 +46,7 @@ bool E0::transition(Automate& automate, Symbole* symbole) {
 bool E1::transition(Automate& automate, Symbole* symbole) {
     cout << "Etat: " << name << ", Symbole: ";
     symbole->Affiche();
+    cout << endl;
     switch (int(*symbole)) {
         case PLUS:
             automate.decalage(symbole, new E4());
@@ -81,6 +83,7 @@ bool E2::transition(Automate& automate, Symbole* symbole) {
 bool E3::transition(Automate& automate, Symbole* symbole) {
     cout << "Etat: " << name << ", Symbole: ";
     symbole->Affiche();
+    cout << endl;
     switch (int(*symbole)) {
         default:
             Entier* i = (Entier*) automate.consulter();
@@ -92,6 +95,7 @@ bool E3::transition(Automate& automate, Symbole* symbole) {
 bool E4::transition(Automate& automate, Symbole* symbole) {
     cout << "Etat: " << name << ", Symbole: ";
     symbole->Affiche();
+    cout << endl;
     switch (int(*symbole)) {
         case OPENPAR:
             automate.decalage(symbole, new E2());
@@ -145,6 +149,7 @@ bool E6::transition(Automate& automate, Symbole* symbole) {
 bool E7::transition(Automate& automate, Symbole* symbole) {
     cout << "Etat: " << name << ", Symbole: ";
     symbole->Affiche();
+    cout << endl;
     switch (int(*symbole)) {
         case MULT:
             automate.decalage(symbole, new E5());
