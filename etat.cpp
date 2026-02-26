@@ -30,10 +30,10 @@ bool E0::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E2());
             return true;
         case EXPR:
-            automate.decalage(symbole, new E1());
+            automate.transitionSimple(symbole, new E1());
             return true;
         case INT:
-            automate.transitionSimple(symbole, new E3());
+            automate.decalage(symbole, new E3());
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
@@ -64,7 +64,7 @@ bool E2::transition(Automate& automate, Symbole* symbole) {
             automate.decalage(symbole, new E3());
             return true;
         case EXPR:
-            automate.decalage(symbole, new E6());
+            automate.transitionSimple(symbole, new E6());
             return true;
         case OPENPAR: 
             automate.decalage(symbole, new E2());
@@ -93,7 +93,7 @@ bool E4::transition(Automate& automate, Symbole* symbole) {
             automate.transitionSimple(symbole, new E7());
             return true;
         case INT:
-            automate.transitionSimple(symbole, new E3());
+            automate.decalage(symbole, new E3());
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
@@ -110,7 +110,7 @@ bool E5::transition(Automate& automate, Symbole* symbole) {
             automate.transitionSimple(symbole, new E8());
             return true;
         case INT:
-            automate.transitionSimple(symbole, new E3());
+            automate.decalage(symbole, new E3());
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
