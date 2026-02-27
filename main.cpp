@@ -1,7 +1,5 @@
 #include <iostream>
-#include "lexer.h"
-#include "etat.h"
-#include "automate.h"
+#include "analyseur.h"
 
 int main(int argc, char* argv[]) {
    if (argc != 2) {
@@ -9,15 +7,10 @@ int main(int argc, char* argv[]) {
        return 1;
    }
 
-   string chaine = argv[1];
-   
-   Automate transformers;
-   Lexer l(chaine);
-
-   transformers.setLexer(&l);
-   cout << "Expression: " << chaine << endl;
-   transformers.iterate();
-   transformers.Afficher();
+   string expression = argv[1];
+   cout << "Expression: " << expression << endl;
+   int result = analyse(expression);
+   cout << "Result: " << result << endl;
    return 0;
 }
 

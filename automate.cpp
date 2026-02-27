@@ -86,3 +86,10 @@ void Automate::Afficher() const {
         cout << "Aucun resultat a afficher." << endl;
     }
 }
+
+int Automate::getResult() const {
+    if (!symbolstack.empty()) {
+        return ((Expr*) symbolstack.back())->getValeur();
+    }
+    return -1; // Valeur par défaut en cas d'erreur
+}

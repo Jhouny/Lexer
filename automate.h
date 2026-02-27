@@ -25,4 +25,5 @@ class Automate {
         void printStacks() const; // Méthode pour afficher les piles (pour le débogage)
         void iterate();
         void Afficher() const;
+        int getResult() const; // Méthode pour obtenir le résultat final après l'analyse
 };
