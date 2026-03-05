@@ -7,7 +7,7 @@ CFLAGS = -g -Wall
 BUILD_DIR = build
 
 # List of source files
-SRCS = main.cpp automate.cpp etat.cpp lexer.cpp symbole.cpp
+SRCS = main.cpp automate.cpp etat.cpp lexer.cpp symbole.cpp analyseur.cpp
 
 # List of object files (in build directory)
 OBJS = $(SRCS:%.cpp=$(BUILD_DIR)/%.o)

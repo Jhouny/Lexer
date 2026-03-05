@@ -26,4 +26,5 @@ class Automate {
         void iterate();
         void Afficher() const;
         int getResult() const; // Méthode pour obtenir le résultat final après l'analyse
+        void reset(); // Méthode pour réinitialiser l'automate à son état initial
 };

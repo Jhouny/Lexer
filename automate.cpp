@@ -93,3 +93,8 @@ int Automate::getResult() const {
     }
     return -1; // Valeur par défaut en cas d'erreur
 }
+
+void Automate::reset() {
+    symbolstack.clear();
+    statestack.clear();
+}

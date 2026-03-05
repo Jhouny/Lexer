@@ -18,6 +18,7 @@ string run_and_capture(const string& expr) {
 }
 
 int main() {
+    // Test structure: {expression, expected_output}
     vector<TestCase> tests = {
         {"1+2", "3"},
         {"3*4", "12"},
@@ -27,7 +28,7 @@ int main() {
         {"(1+)", "0"},
         // Add more test cases here
     };
-    int passed = 0;
+    long unsigned int passed = 0;
     for (size_t i = 0; i < tests.size(); ++i) {
         string output = run_and_capture(tests[i].expression);
         if (output == tests[i].expected_output) {

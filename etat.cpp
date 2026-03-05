@@ -14,6 +14,7 @@ class Automate {
         void printStacks() const; // Méthode pour afficher les piles (pour le débogage)
         void iterate();
         void Afficher() const;
+        void reset();
 }; // Éviter les inclusions circulaires
 
 Etat::Etat(string name) : name(name) {}
@@ -37,6 +38,8 @@ bool E0::transition(Automate& automate, Symbole* symbole) {
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
+            // Reset symbol and state stacks to initial state
+            automate.reset();
             return false;
     }
 }
@@ -54,6 +57,8 @@ bool E1::transition(Automate& automate, Symbole* symbole) {
             return false;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
+            // Reset symbol and state stacks to initial state
+            automate.reset();
             return false;
     }
 }
@@ -71,6 +76,8 @@ bool E2::transition(Automate& automate, Symbole* symbole) {
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
+            // Reset symbol and state stacks to initial state
+            automate.reset();
             return false;
     }
 }
@@ -97,6 +104,8 @@ bool E4::transition(Automate& automate, Symbole* symbole) {
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
+            // Reset symbol and state stacks to initial state
+            automate.reset();
             return false;
     }
 }
@@ -114,6 +123,8 @@ bool E5::transition(Automate& automate, Symbole* symbole) {
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
+            // Reset symbol and state stacks to initial state
+            automate.reset();
             return false;
     }
 }
@@ -131,6 +142,8 @@ bool E6::transition(Automate& automate, Symbole* symbole) {
             return true;
         default:
             cout << "Erreur de syntaxe: symbole inattendu " << Etiquettes[int(*symbole)] << " dans l'etat " << name << endl;
+            // Reset symbol and state stacks to initial state
+            automate.reset();
             return false;
     }
 }
