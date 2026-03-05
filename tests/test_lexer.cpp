@@ -25,8 +25,44 @@ int main() {
         {"(1+2)*3", "9"},
         {"10+20*30", "610"},
         {"(10+20)*30", "900"},
-        {"(1+)", "0"},
-        // Add more test cases here
+        {"(1+)", "-1"},
+        // Error cases based on the LALR(1) table analysis
+        {"+", "-1"},       // E0
+        {"*", "-1"},       // E0
+        {")", "-1"},       // E0
+        {"", "-1"},        // E0
+        //{"11", "-1"},     // E1 - can't test input valval because the lexer concatenates the numbers
+        {"1(", "-1"},       // E1
+        {"1)", "-1"},       // E1
+        {"1(1)", "-1"},     // E1
+        {"(+", "-1"},      // E2
+        {"(*", "-1"},      // E2
+        {"()", "-1"},      // E2
+        {"(", "-1"},       // E2
+        //{"1", "-1"},      // E3 - can't test input valval because the lexer concatenates the numbers
+        //{"1(", "-1"},     // E3 - equivalent to E1
+        //{"1(1)", "-1"},   // E3 - equivalent to E1
+        {"1++", "-1"},     // E4
+        {"1+*", "-1"},     // E4
+        {"1+)", "-1"},     // E4
+        {"1+", "-1"},      // E4
+        {"1*+", "-1"},      // E5
+        {"1**", "-1"},      // E5
+        {"1*)", "-1"},      // E5
+        {"1*", "-1"},       // E5
+        //{"(11", "-1"},   // E6 - can't test input valval because the lexer concatenates the numbers
+        {"(1(", "-1"},     // E6
+        {"(1", "-1"},      // E6
+        //{"(11", "-1"},   // E6 - can't test input valval because the lexer concatenates the numbers
+        //{"1+11", "-1"},   // E7 - can't test input valval because the lexer concatenates the numbers
+        {"1+1(", "-1"},     // E7
+        //{"1+11", "-1"},   // E7 - can't test input valval because the lexer concatenates the numbers
+        //{"1*11", "-1"},  // E8 - can't test input valval because the lexer concatenates the numbers
+        {"1*1(", "-1"},    // E8
+        //{"1*11", "-1"},  // E8 - can't test input valval because the lexer concatenates the numbers
+        {"(1)1", "-1"},     // E9
+        {"(1)(", "-1"},     // E9
+        //{"(1)1", "-1"},   // E9 - can't test input valval because the lexer concatenates the numbers
     };
     long unsigned int passed = 0;
     for (size_t i = 0; i < tests.size(); ++i) {
