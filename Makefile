@@ -13,7 +13,7 @@ SRCS = main.cpp automate.cpp etat.cpp lexer.cpp symbole.cpp analyseur.cpp
 OBJS = $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
 
 # Name of the executable (in build directory)
-EXEC = $(BUILD_DIR)/out
+EXEC = $(BUILD_DIR)/lexer
 
 # Default target
 all: $(EXEC)
