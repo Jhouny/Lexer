@@ -15,3 +15,11 @@ After building, you can run the lexer and parser with:
 ```bash
 ./build/lexer.exe '<EXPRESSION>'
 ```
+
+## Testing 
+The tests for the program are in `tests/test_lexer.cpp`. You can run the tests using the following command from the `tests` directory:
+
+```bash
+make test
+```
+This will compile the test suite and execute it, providing feedback on the success or failure of each test case. Errors on the grammar are reported with specific messages indicating the nature of the error.
